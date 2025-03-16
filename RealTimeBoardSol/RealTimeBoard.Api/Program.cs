@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using RealTimeBoard.Api;
 using RealTimeBoard.Api.Extension;
+using RealTimeBoard.Api.Services;
 using RealTimeBoard.Domain.EntitySQL;
 using RealTimeBoard.Infrustructure;
 
@@ -16,9 +17,10 @@ builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
     .AddEntityFrameworkStores<ApplicationDbContext>()
     .AddDefaultTokenProviders();
 
-
+builder.Services.AddSwagger();
 builder.Services.AddOpenApi();
 
+builder.Services.AddScoped<IJwtService, JwtService>();
 
 builder.Services.RegisterAddAuthLogin(builder.Configuration);
 

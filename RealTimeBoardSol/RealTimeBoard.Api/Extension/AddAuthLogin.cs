@@ -1,5 +1,7 @@
 using System.Text;
+using Microsoft.AspNetCore.Authentication.Cookies; 
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authentication.Google;
 using Microsoft.IdentityModel.Tokens;
 
 namespace RealTimeBoard.Api.Extension;
@@ -10,14 +12,20 @@ public static class AddAuthLogin
     {
         services.AddAuthentication(options =>
             {
-                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-                options.DefaultSignInScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme; 
+                options.DefaultChallengeScheme = GoogleDefaults.AuthenticationScheme;
+                options.DefaultSignInScheme = CookieAuthenticationDefaults.AuthenticationScheme; 
+            })
+            .AddCookie(options => // Додаємо Cookie-аутентифікацію
+            {
+                options.LoginPath = "/sign-in/google";
+                options.LogoutPath = "/sign-out"; 
             })
             .AddGoogle(googleOptions =>
             {
                 googleOptions.ClientId = configuration["Authentication:Google:ClientId"] ?? throw new InvalidOperationException();
                 googleOptions.ClientSecret = configuration["Authentication:Google:ClientSecret"] ?? throw new InvalidOperationException();
+                googleOptions.SignInScheme = CookieAuthenticationDefaults.AuthenticationScheme; 
             })
             .AddJwtBearer(jwtOptions =>
             {
