@@ -4,6 +4,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RealTimeBoard.Api", "RealTi
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RealTimeBoard.Domain", "RealTimeBoard.Domain\RealTimeBoard.Domain.csproj", "{C6DEE8A0-459C-4784-9CC6-7A11B7D97C55}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RealTimeBoard.Infrastructure", "RealTimeBoard.Infrastructure\RealTimeBoard.Infrastructure.csproj", "{3A5A235F-D085-47FD-9F2E-7BA69F7C6430}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -18,5 +20,9 @@ Global
 		{C6DEE8A0-459C-4784-9CC6-7A11B7D97C55}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C6DEE8A0-459C-4784-9CC6-7A11B7D97C55}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C6DEE8A0-459C-4784-9CC6-7A11B7D97C55}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3A5A235F-D085-47FD-9F2E-7BA69F7C6430}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3A5A235F-D085-47FD-9F2E-7BA69F7C6430}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3A5A235F-D085-47FD-9F2E-7BA69F7C6430}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3A5A235F-D085-47FD-9F2E-7BA69F7C6430}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
