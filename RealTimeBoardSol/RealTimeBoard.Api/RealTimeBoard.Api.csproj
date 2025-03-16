@@ -20,4 +20,8 @@
         <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="9.0.1" />
     </ItemGroup>
 
+    <ItemGroup>
+      <ProjectReference Include="..\RealTimeBoard.Domain\RealTimeBoard.Domain.csproj" />
+    </ItemGroup>
+
 </Project>

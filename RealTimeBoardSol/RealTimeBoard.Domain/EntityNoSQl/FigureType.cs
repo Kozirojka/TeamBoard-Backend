@@ -1,4 +1,4 @@
-namespace RealTimeBoard.Domain;
+namespace RealTimeBoard.Domain.EntityNoSQl;
 
 public enum FigureType
 {
