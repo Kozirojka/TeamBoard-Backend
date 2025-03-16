@@ -5,11 +5,11 @@ using MongoDB.Bson.Serialization;
 using MongoDB.Bson.Serialization.Conventions;
 using MongoDB.Bson.Serialization.Serializers;
 using MongoDB.Driver;
-using RealTimeBoard.Api.Database;
+using RealTimeBoard.Infrustructure.Database;
 
 namespace RealTimeBoard.Api.Extension;
 
-public static class DependencyInjection
+public static class MongoDbOptions
 {
     public static IServiceCollection AddFeatures(this IServiceCollection services, IConfiguration configuration)
     {
