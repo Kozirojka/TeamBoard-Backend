@@ -5,7 +5,7 @@ using RealTimeBoard.Domain.EntitySQL;
 using RealTimeBoard.Domain.Exteptions;
 using RealTimeBoard.Domain.Requests;
 
-namespace ReadTimeBoard.Application;
+namespace ReadTimeBoard.Application.services;
 
 public class AccountService : IAccountService
 {
