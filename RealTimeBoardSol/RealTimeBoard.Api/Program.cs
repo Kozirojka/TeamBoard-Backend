@@ -10,8 +10,12 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddDbContext<ApplicationDbContext>(o =>
 {
-    o.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection"));
+    o.UseNpgsql(builder.Configuration.GetConnectionString("DbPostgres"));
 });
+
+builder.Services.Configure<JwtOptions>(
+    builder.Configuration.GetSection(JwtOptions.JwtOptionsKey));
+
 
 builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
     .AddEntityFrameworkStores<ApplicationDbContext>()

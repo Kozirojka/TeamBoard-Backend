@@ -9,7 +9,8 @@ public class GoogleResponceEndpoint : IEndpoint
 {
     public void RegisterEndpoints(IEndpointRouteBuilder endpoints)
     {
-        endpoints.MapGet("/google-response", Handler); 
+        endpoints.MapGet("/api/account/login/google/callback", Handler).WithName("LoginGoogleCallback"); 
+  
     }
 
     private async Task<IResult> Handler(HttpContext context, IJwtService jwtService)

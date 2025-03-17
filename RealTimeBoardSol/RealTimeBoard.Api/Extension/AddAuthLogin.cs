@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authentication.Google;
 using Microsoft.IdentityModel.Tokens;
+using RealTimeBoard.Infrustructure;
 
 namespace RealTimeBoard.Api.Extension;
 
@@ -10,39 +11,56 @@ public static class AddAuthLogin
 {
     public static void RegisterAddAuthLogin(this IServiceCollection services, IConfiguration configuration)
     {
-        services.AddAuthentication(options =>
+        services.AddAuthentication(opt =>
+        {
+            opt.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+            opt.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            opt.DefaultSignInScheme = JwtBearerDefaults.AuthenticationScheme;
+        }).AddCookie().AddGoogle(options =>
+        {
+            var clientId = configuration["Authentication:Google:ClientId"];
+        
+            if (clientId == null)
             {
-                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme; 
-                options.DefaultChallengeScheme = GoogleDefaults.AuthenticationScheme;
-                options.DefaultSignInScheme = CookieAuthenticationDefaults.AuthenticationScheme; 
-            })
-            .AddCookie(options => // Додаємо Cookie-аутентифікацію
+                throw new ArgumentNullException(nameof(clientId));
+            }
+            
+            var clientSecret = configuration["Authentication:Google:ClientSecret"];
+            
+            if (clientSecret == null)
             {
-                options.LoginPath = "/sign-in/google";
-                options.LogoutPath = "/sign-out"; 
-            })
-            .AddGoogle(googleOptions =>
+                throw new ArgumentNullException(nameof(clientSecret));
+            }
+        
+            options.ClientId = clientId;
+            options.ClientSecret = clientSecret;
+            options.SignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+        
+        }).AddJwtBearer(options =>
+        {
+            var jwtOptions = configuration.GetSection(JwtOptions.JwtOptionsKey)
+                .Get<JwtOptions>() ?? throw new ArgumentException(nameof(JwtOptions));
+        
+            options.TokenValidationParameters = new TokenValidationParameters
             {
-                googleOptions.ClientId = configuration["Authentication:Google:ClientId"] ?? throw new InvalidOperationException();
-                googleOptions.ClientSecret = configuration["Authentication:Google:ClientSecret"] ?? throw new InvalidOperationException();
-                googleOptions.SignInScheme = CookieAuthenticationDefaults.AuthenticationScheme; 
-            })
-            .AddJwtBearer(jwtOptions =>
+                ValidateIssuer = true,
+                ValidateAudience = true,
+                ValidateLifetime = true,
+                ValidateIssuerSigningKey = true,
+                ValidIssuer = jwtOptions.Issuer,
+                ValidAudience = jwtOptions.Audience,
+                IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtOptions.Secret))
+            };
+        
+            options.Events = new JwtBearerEvents
             {
-                jwtOptions.RequireHttpsMetadata = false;
-                jwtOptions.SaveToken = true;
-                jwtOptions.TokenValidationParameters = new TokenValidationParameters
+                OnMessageReceived = context =>
                 {
-                    ValidateIssuerSigningKey = true,
-                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["Jwt:Secret"] ?? throw new InvalidOperationException())),
-                    ValidateIssuer = true,
-                    ValidIssuer = configuration["Jwt:Issuer"], 
-                    ValidateAudience = true,
-                    ValidAudience = configuration["Jwt:Audience"],
-                    ValidateLifetime = true,
-                    ClockSkew = TimeSpan.Zero
-                };
-            });
+                    context.Token = context.Request.Cookies["ACCESS_TOKEN"];
+                    return Task.CompletedTask;
+                }
+            };
+        });
 
         services.AddAuthorization();
     }
