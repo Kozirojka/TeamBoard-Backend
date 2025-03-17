@@ -8,7 +8,11 @@
 
     <ItemGroup>
       <PackageReference Include="Microsoft.AspNetCore.Http" Version="2.3.0" />
-      <PackageReference Include="Microsoft.Extensions.Identity.Stores" Version="9.0.3" />
+      <PackageReference Include="Microsoft.Extensions.Identity.Core" Version="9.0.3" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\RealTimeBoard.Domain\RealTimeBoard.Domain.csproj" />
     </ItemGroup>
 
 </Project>

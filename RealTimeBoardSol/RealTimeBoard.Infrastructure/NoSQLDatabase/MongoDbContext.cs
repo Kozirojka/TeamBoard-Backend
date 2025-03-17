@@ -1,7 +1,7 @@
 using MongoDB.Driver;
 using RealTimeBoard.Domain.EntityNoSQl;
 
-namespace RealTimeBoard.Api.Database;
+namespace RealTimeBoard.Infrustructure.Database;
 
 public class MongoDbContext(IMongoClient mongoClient)
 {
