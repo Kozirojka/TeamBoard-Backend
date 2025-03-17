@@ -111,7 +111,7 @@ public class AccountService : IAccountService
             throw new ExternalLoginProviderException("Google", "Email is null");
         }
 
-        var user = await _userManager.FindByEmailAsync(email);
+        var user = await _userRepository.GetUserByEmail(email);
 
         if (user == null)
         {
@@ -138,18 +138,22 @@ public class AccountService : IAccountService
             user = newUser;
         }
         
-        var info = new UserLoginInfo("Google",
-            claimsPrincipal.FindFirstValue(ClaimTypes.NameIdentifier) ?? string.Empty,
-            "Google");
-
-        var loginResult = await _userManager.AddLoginAsync(user, info);
-            
-        if (!loginResult.Succeeded)
-        {
-            throw new ExternalLoginProviderException("Google",
-                $"Unable to login user: {string.Join(", ",
-                    loginResult.Errors.Select(x => x.Description))}");
-        }
+       var providerKey = claimsPrincipal.FindFirstValue(ClaimTypes.NameIdentifier) ?? string.Empty;
+       
+           var existingLogins = await _userManager.GetLoginsAsync(user);
+           var alreadyLinked = existingLogins.Any(l => l.LoginProvider == "Google" && l.ProviderKey == providerKey);
+       
+           if (!alreadyLinked)
+           {
+               var info = new UserLoginInfo("Google", providerKey, "Google");
+               var loginResult = await _userManager.AddLoginAsync(user, info);
+       
+               if (!loginResult.Succeeded)
+               {
+                   throw new ExternalLoginProviderException("Google",
+                       $"Unable to login user: {string.Join(", ", loginResult.Errors.Select(x => x.Description))}");
+               }
+           }
         
         var (jwtToken, expirationDateInUtc) = _authTokenProcessor.GenerateJwtToken(user);
         var refreshTokenValue = _authTokenProcessor.GenerateRefreshToken();
