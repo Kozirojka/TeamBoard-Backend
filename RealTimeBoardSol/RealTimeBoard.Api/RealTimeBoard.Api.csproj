@@ -27,6 +27,7 @@
     </ItemGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\ReadTimeBoard.Application\ReadTimeBoard.Application.csproj" />
       <ProjectReference Include="..\RealTimeBoard.Domain\RealTimeBoard.Domain.csproj" />
       <ProjectReference Include="..\RealTimeBoard.Infrastructure\RealTimeBoard.Infrastructure.csproj" />
     </ItemGroup>

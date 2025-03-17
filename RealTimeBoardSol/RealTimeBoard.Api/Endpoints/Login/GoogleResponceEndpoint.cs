@@ -1,6 +1,9 @@
 using System.Security.Claims;
 using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Authentication.Cookies; // Додано для Cookie-аутентифікації
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication.Google;
+using Microsoft.AspNetCore.Mvc;
+using ReadTimeBoard.Application.interfaces; // Додано для Cookie-аутентифікації
 using RealTimeBoard.Api.Services;
 
 namespace RealTimeBoard.Api.Endpoints.Login;
@@ -13,20 +16,18 @@ public class GoogleResponceEndpoint : IEndpoint
   
     }
 
-    private async Task<IResult> Handler(HttpContext context, IJwtService jwtService)
+    private async Task<IResult> Handler([FromQuery] string returnUrl, HttpContext context, IAccountService accountService)
     {
-        var info = await context.AuthenticateAsync(CookieAuthenticationDefaults.AuthenticationScheme);
-        
-        if (info?.Principal != null)
+        var result = await context.AuthenticateAsync(GoogleDefaults.AuthenticationScheme);
+
+        if (!result.Succeeded)
         {
-            var userId = info.Principal.FindFirstValue(ClaimTypes.NameIdentifier);
-            var email = info.Principal.FindFirstValue(ClaimTypes.Email);
-
-            var token = jwtService.GenerateJwtToken(userId, email); 
-
-            return Results.Ok(new { Token = token });
+            return Results.Unauthorized();
         }
-
-        return Results.Unauthorized();
+        
+        await accountService.LoginWithGoogleAsync(result.Principal);
+        
+        return Results.Redirect(returnUrl);
     }
+        
 }
