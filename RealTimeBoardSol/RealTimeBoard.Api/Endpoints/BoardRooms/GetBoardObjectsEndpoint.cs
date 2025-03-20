@@ -4,6 +4,8 @@ using ReadTimeBoard.Application.Board.Query;
 
 namespace RealTimeBoard.Api.Endpoints.BoardRooms;
 
+
+/// точка потірнба для того, щоб користувач міг доступитись до борда, щоб забрати певні дані
 public class GetBoardObjectsEndpoint : IEndpoint
 {
     public void RegisterEndpoints(IEndpointRouteBuilder endpoints)

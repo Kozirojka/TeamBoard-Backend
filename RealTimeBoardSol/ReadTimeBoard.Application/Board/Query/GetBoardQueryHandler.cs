@@ -13,7 +13,7 @@ public record GetBoardQuery(Guid BoardId) : IRequest<GetBoardResponce>;
 
 public  class GetBoardQueryHandler(MongoDbContext mongoDbContext) : IRequestHandler<GetBoardQuery, GetBoardResponce>
 {
-    private readonly MongoDbContext mongoDbContext = mongoDbContext;
+    private readonly MongoDbContext MongoDbContext = mongoDbContext;
     
     public async Task<GetBoardResponce> Handle(GetBoardQuery request, CancellationToken cancellationToken)
     {
@@ -21,7 +21,7 @@ public  class GetBoardQueryHandler(MongoDbContext mongoDbContext) : IRequestHand
         var filter = Builders<VectorObject>.Filter.Eq(obj => obj.Id, request.BoardId);
 
         
-        var listOfObjects = await mongoDbContext.FitureObjects.Find(filter).ToListAsync(cancellationToken);
+        var listOfObjects = await MongoDbContext.FitureObjects.Find(filter).ToListAsync(cancellationToken);
 
         if (listOfObjects == null || listOfObjects.Count == 0)
         {

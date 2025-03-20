@@ -7,6 +7,7 @@
     </PropertyGroup>
 
     <ItemGroup>
+      <PackageReference Include="ErrorOr" Version="2.0.1" />
       <PackageReference Include="MediatR" Version="12.4.1" />
       <PackageReference Include="Microsoft.AspNetCore.Http" Version="2.3.0" />
       <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="9.0.3">
@@ -22,10 +23,6 @@
     <ItemGroup>
       <ProjectReference Include="..\RealTimeBoard.Infrastructure\RealTimeBoard.Infrastructure.csproj" />
       <ProjectReference Include="..\RealTimeBoard.Domain\RealTimeBoard.Domain.csproj" />
-    </ItemGroup>
-
-    <ItemGroup>
-      <Folder Include="Board\Command\" />
     </ItemGroup>
 
 </Project>
