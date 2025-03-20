@@ -1,5 +1,6 @@
 ﻿    using System.Drawing;
     using System.Text.Json.Nodes;
+    using System.Text.Json.Serialization;
 
     namespace RealTimeBoard.Domain.EntityNoSQl;
 
@@ -8,6 +9,8 @@
     {
         public Guid Id { get; set; }
         public FigureType Type { get; set; }
+        
+        [JsonConverter(typeof(PointConverter))]
         public Point Position { get; set; }
         public string Color { get; set; }
         

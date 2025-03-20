@@ -7,5 +7,5 @@ public class MongoDbContext(IMongoClient mongoClient)
 {
     private readonly IMongoDatabase _database = mongoClient.GetDatabase("whiteboard");
     
-    public IMongoCollection<VectorObject> Orders => _database.GetCollection<VectorObject>("vector-object");
+    public IMongoCollection<VectorObject> FitureObjects => _database.GetCollection<VectorObject>("vector-object");
 }

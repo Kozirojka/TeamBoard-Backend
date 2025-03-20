@@ -19,14 +19,14 @@ builder.Services.AddDbContext<ApplicationDbContext>(o =>
 
 builder.Services.Configure<JwtOptions>(
     builder.Configuration.GetSection(JwtOptions.JwtOptionsKey));
-
-builder.Services.AddCors(opt =>
-{
-    opt.AddPolicy("CorsPolicy", options =>
-    {
-        options.AllowAnyHeader().AllowAnyMethod().AllowCredentials().WithOrigins("http://localhost:5173");
-    });
-});
+//
+// builder.Services.AddCors(opt =>
+// {
+//     opt.AddPolicy("CorsPolicy", options =>
+//     {
+//         options.AllowAnyHeader().AllowAnyMethod().AllowCredentials().AllowAnyOrigin();
+//     });
+// });
 
 builder.Services.AddScoped<IAuthTokenProcessor, AuthTokenProcessor>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
@@ -37,7 +37,6 @@ builder.Services.AddScoped<IAccountService, AccountService>();
 builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
     .AddEntityFrameworkStores<ApplicationDbContext>()
     
-    
     .AddDefaultTokenProviders();
 builder.Services.AddHttpContextAccessor();
 
@@ -46,7 +45,7 @@ builder.Services.AddOpenApi();
 
 builder.Services.AddScoped<IJwtService, JwtService>();
 
-builder.Services.RegisterAddAuthLogin(builder.Configuration);
+//builder.Services.RegisterAddAuthLogin(builder.Configuration);
 
 builder.Services.AddSignalR();
 
@@ -67,7 +66,7 @@ if (app.Environment.IsDevelopment())
     });
 }
 
-app.UseCors("CorsPolicy");
+//app.UseCors("CorsPolicy");
 
 app.UseAuthentication();
 app.UseAuthorization();

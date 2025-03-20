@@ -10,13 +10,17 @@ public class DrawingHub : Hub
         await Groups.AddToGroupAsync(Context.ConnectionId, roomName);
     }
 
-    public async Task SendVectorObjectToGroup(string roomName, VectorObject vectorObject)
+    public async Task SendVectorObjectToGroup(VectorObject vectorObject)
     {
-        await Clients.Group(roomName).SendAsync("ReceiveVectorObject", vectorObject);
+        Console.WriteLine("Hehre was request");
+        await Clients.All.SendAsync("ReceiveVectorObject", vectorObject);
     }
+    
     
     public async Task LeaveRoom(string roomName)
     {
         await Groups.RemoveFromGroupAsync(Context.ConnectionId, roomName);
     }
+    
+    
 }
