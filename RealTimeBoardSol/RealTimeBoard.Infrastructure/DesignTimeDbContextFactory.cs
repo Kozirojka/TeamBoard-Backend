@@ -1,7 +1,8 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
+using RealTimeBoard.Infrustructure;
 
-namespace RealTimeBoard.Infrustructure;
+namespace RealTimeBoard.Infrastructure;
 
 public class DesignTimeDbContextFactory : IDesignTimeDbContextFactory<ApplicationDbContext>
 {

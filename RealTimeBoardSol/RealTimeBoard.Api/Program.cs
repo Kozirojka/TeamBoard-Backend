@@ -1,14 +1,14 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using ReadTimeBoard.Application.interfaces;
+using ReadTimeBoard.Application.Processors;
+using ReadTimeBoard.Application.Repository;
 using ReadTimeBoard.Application.services;
 using RealTimeBoard.Api;
 using RealTimeBoard.Api.Extension;
 using RealTimeBoard.Api.Services;
 using RealTimeBoard.Domain.EntitySQL;
 using RealTimeBoard.Infrustructure;
-using RealTimeBoard.Infrustructure.Processors;
-using RealTimeBoard.Infrustructure.Repository;
 
 var builder = WebApplication.CreateBuilder(args);
 

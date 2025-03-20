@@ -8,7 +8,7 @@ using RealTimeBoard.Infrustructure;
 
 #nullable disable
 
-namespace RealTimeBoard.Infrustructure.Migrations
+namespace RealTimeBoard.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
     partial class ApplicationDbContextModelSnapshot : ModelSnapshot
