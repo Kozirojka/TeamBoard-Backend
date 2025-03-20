@@ -1,4 +1,4 @@
-namespace RealTimeBoard.Infrustructure;
+namespace RealTimeBoard.Domain;
 
 public class JwtOptions
 {

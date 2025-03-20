@@ -2,8 +2,9 @@ using System.Security.Claims;
 using Microsoft.AspNetCore.Identity;
 using ReadTimeBoard.Application.interfaces;
 using RealTimeBoard.Domain.EntitySQL;
-using RealTimeBoard.Domain.Exteptions;
+using RealTimeBoard.Domain.Extensions;
 using RealTimeBoard.Domain.Requests;
+using RealTimeBoard.Domain.Requests.Auth;
 
 namespace ReadTimeBoard.Application.services;
 

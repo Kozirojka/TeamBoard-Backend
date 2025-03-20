@@ -1,10 +1,7 @@
-using System.Security.Claims;
 using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.Google;
 using Microsoft.AspNetCore.Mvc;
-using ReadTimeBoard.Application.interfaces; // Додано для Cookie-аутентифікації
-using RealTimeBoard.Api.Services;
+using ReadTimeBoard.Application.interfaces; 
 
 namespace RealTimeBoard.Api.Endpoints.Login;
 

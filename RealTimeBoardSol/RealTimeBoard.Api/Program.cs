@@ -6,7 +6,7 @@ using ReadTimeBoard.Application.Repository;
 using ReadTimeBoard.Application.services;
 using RealTimeBoard.Api;
 using RealTimeBoard.Api.Extension;
-using RealTimeBoard.Api.Services;
+using RealTimeBoard.Domain;
 using RealTimeBoard.Domain.EntitySQL;
 using RealTimeBoard.Infrustructure;
 
@@ -43,7 +43,6 @@ builder.Services.AddHttpContextAccessor();
 builder.Services.AddSwagger();
 builder.Services.AddOpenApi();
 
-builder.Services.AddScoped<IJwtService, JwtService>();
 
 //builder.Services.RegisterAddAuthLogin(builder.Configuration);
 

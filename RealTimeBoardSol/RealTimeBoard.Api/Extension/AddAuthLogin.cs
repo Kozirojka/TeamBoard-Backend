@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authentication.Google;
 using Microsoft.IdentityModel.Tokens;
+using RealTimeBoard.Domain;
 using RealTimeBoard.Infrustructure;
 
 namespace RealTimeBoard.Api.Extension;

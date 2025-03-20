@@ -11,9 +11,9 @@ public class GetBoardObjectsEndpoint : IEndpoint
         endpoints.MapGet("/api/board/{id}", Handler);
     }
 
-    private async Task<IResult> Handler([FromRoute] string id, IMediator mediator)
+    private async Task<IResult> Handler([FromRoute] Guid id, IMediator mediator)
     {
-        var query = new GetBoardQuery();
+        var query = new GetBoardQuery(id);
         
         var result = await mediator.Send(query);
         

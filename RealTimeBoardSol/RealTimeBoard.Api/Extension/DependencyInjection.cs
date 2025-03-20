@@ -5,7 +5,7 @@ using MongoDB.Bson.Serialization;
 using MongoDB.Bson.Serialization.Conventions;
 using MongoDB.Bson.Serialization.Serializers;
 using MongoDB.Driver;
-using RealTimeBoard.Infrustructure.NoSQLDatabase;
+using RealTimeBoard.Infrastructure.NoSQLDatabase;
 
 namespace RealTimeBoard.Api.Extension;
 

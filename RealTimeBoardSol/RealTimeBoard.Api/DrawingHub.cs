@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.SignalR;
 using RealTimeBoard.Domain.EntityNoSQl;
-using RealTimeBoard.Infrustructure.NoSQLDatabase;
+using RealTimeBoard.Infrastructure.NoSQLDatabase;
 
 namespace RealTimeBoard.Api;
 

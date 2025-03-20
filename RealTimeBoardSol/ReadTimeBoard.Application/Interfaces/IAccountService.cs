@@ -1,5 +1,6 @@
 using System.Security.Claims;
 using RealTimeBoard.Domain.Requests;
+using RealTimeBoard.Domain.Requests.Auth;
 
 namespace ReadTimeBoard.Application.interfaces;
 

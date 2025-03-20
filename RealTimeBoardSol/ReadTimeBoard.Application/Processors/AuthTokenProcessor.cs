@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using ReadTimeBoard.Application.interfaces;
+using RealTimeBoard.Domain;
 using RealTimeBoard.Domain.EntitySQL;
 using RealTimeBoard.Infrustructure;
 
