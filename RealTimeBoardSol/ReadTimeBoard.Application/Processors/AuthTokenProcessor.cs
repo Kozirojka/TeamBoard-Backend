@@ -8,7 +8,6 @@ using Microsoft.IdentityModel.Tokens;
 using ReadTimeBoard.Application.interfaces;
 using RealTimeBoard.Domain;
 using RealTimeBoard.Domain.EntitySQL;
-using RealTimeBoard.Infrustructure;
 
 namespace ReadTimeBoard.Application.Processors;
 

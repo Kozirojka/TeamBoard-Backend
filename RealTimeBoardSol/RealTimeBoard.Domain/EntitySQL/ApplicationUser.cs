@@ -10,6 +10,8 @@ public class ApplicationUser : IdentityUser
     public string? RefreshToken { get; set; }
     public DateTime? RefreshTokenExpiresAtUtc { get; set; }
 
+    public ICollection<Board> Boards { get; set; }
+    
     public static ApplicationUser Create(string firstName, string lastName,  string email)
     {
         return new ApplicationUser
@@ -20,8 +22,20 @@ public class ApplicationUser : IdentityUser
         };
     }
     //use will have a list of token. Where each token it's key to canvaboard
-    public ICollection<BoardToken> ListOfTokens { get; set; } = new List<BoardToken>();
 
+    public bool AddBoardToUser(Board board)
+    {
+        
+        if (board == null)
+        {
+            throw new ArgumentNullException(nameof(board), "Board cannot be null");
+        }
+        
+        Boards.Add(board);
+        
+        return true;
+    }
+    
     public override string ToString()
     {
         return $"{FirstName} {LastName}";

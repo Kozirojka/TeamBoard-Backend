@@ -8,7 +8,7 @@ using RealTimeBoard.Api;
 using RealTimeBoard.Api.Extension;
 using RealTimeBoard.Domain;
 using RealTimeBoard.Domain.EntitySQL;
-using RealTimeBoard.Infrustructure;
+using RealTimeBoard.Infrastructure;
 
 var builder = WebApplication.CreateBuilder(args);
 

@@ -2,7 +2,7 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using RealTimeBoard.Domain.EntitySQL;
 
-namespace RealTimeBoard.Infrustructure;
+namespace RealTimeBoard.Infrastructure;
 
 public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
 {
@@ -13,5 +13,10 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     
     public DbSet<ApplicationUser> ApplicationUsers { get; set; }
     public DbSet<Board> Boards { get; set; }
-    public DbSet<BoardToken> BoardTokens { get; set; }
+
+     protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+            modelBuilder.ApplyConfigurationsFromAssembly(typeof(ApplicationDbContext).Assembly);
+        }
 }
