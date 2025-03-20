@@ -2,28 +2,22 @@ using System.Security.Claims;
 using Microsoft.AspNetCore.Identity;
 using ReadTimeBoard.Application.interfaces;
 using RealTimeBoard.Domain.EntitySQL;
-using RealTimeBoard.Domain.Exteptions;
+using RealTimeBoard.Domain.Extensions;
 using RealTimeBoard.Domain.Requests;
+using RealTimeBoard.Domain.Requests.Auth;
 
 namespace ReadTimeBoard.Application.services;
 
-public class AccountService : IAccountService
+public class AccountService(
+    IAuthTokenProcessor authTokenProcessor,
+    UserManager<ApplicationUser> userManager,
+    IUserRepository userRepository)
+
+    : IAccountService
 {
-    private readonly IAuthTokenProcessor _authTokenProcessor;
-    private readonly UserManager<ApplicationUser> _userManager;
-    private readonly IUserRepository _userRepository;
-
-    public AccountService(IAuthTokenProcessor authTokenProcessor, UserManager<ApplicationUser> userManager,
-        IUserRepository userRepository)
-    {
-        _authTokenProcessor = authTokenProcessor;
-        _userManager = userManager;
-        _userRepository = userRepository;
-    }
-
     public async Task RegisterAsync(RegisterRequest registerRequest)
     {
-        var userExists = await _userManager.FindByEmailAsync(registerRequest.Email) != null;
+        var userExists = await userManager.FindByEmailAsync(registerRequest.Email) != null;
 
         if (userExists)
         {
@@ -31,9 +25,9 @@ public class AccountService : IAccountService
         }
 
         var user = ApplicationUser.Create(registerRequest.Email, registerRequest.FirstName, registerRequest.LastName);
-        user.PasswordHash = _userManager.PasswordHasher.HashPassword(user, registerRequest.Password);
+        user.PasswordHash = userManager.PasswordHasher.HashPassword(user, registerRequest.Password);
 
-        var result = await _userManager.CreateAsync(user);
+        var result = await userManager.CreateAsync(user);
 
         if (!result.Succeeded)
         {
@@ -43,25 +37,25 @@ public class AccountService : IAccountService
 
     public async Task LoginAsync(LoginRequest loginRequest)
     {
-        var user = await _userManager.FindByEmailAsync(loginRequest.Email);
+        var user = await userManager.FindByEmailAsync(loginRequest.Email);
 
-        if (user == null || !await _userManager.CheckPasswordAsync(user, loginRequest.Password))
+        if (user == null || !await userManager.CheckPasswordAsync(user, loginRequest.Password))
         {
             throw new LoginFailedException(loginRequest.Email);
         }
 
-        var (jwtToken, expirationDateInUtc) = _authTokenProcessor.GenerateJwtToken(user);
-        var refreshTokenValue = _authTokenProcessor.GenerateRefreshToken();
+        var (jwtToken, expirationDateInUtc) = authTokenProcessor.GenerateJwtToken(user);
+        var refreshTokenValue = authTokenProcessor.GenerateRefreshToken();
 
         var refreshTokenExpirationDateInUtc = DateTime.UtcNow.AddDays(7);
 
         user.RefreshToken = refreshTokenValue;
         user.RefreshTokenExpiresAtUtc = refreshTokenExpirationDateInUtc;
 
-        await _userManager.UpdateAsync(user);
+        await userManager.UpdateAsync(user);
         
-        _authTokenProcessor.WriteAuthTokenAsHttpOnlyCookie("ACCESS_TOKEN", jwtToken, expirationDateInUtc);
-        _authTokenProcessor.WriteAuthTokenAsHttpOnlyCookie("REFRESH_TOKEN", user.RefreshToken, refreshTokenExpirationDateInUtc);
+        authTokenProcessor.WriteAuthTokenAsHttpOnlyCookie("ACCESS_TOKEN", jwtToken, expirationDateInUtc);
+        authTokenProcessor.WriteAuthTokenAsHttpOnlyCookie("REFRESH_TOKEN", user.RefreshToken, refreshTokenExpirationDateInUtc);
     }
 
     public async Task RefreshTokenAsync(string? refreshToken)
@@ -71,7 +65,7 @@ public class AccountService : IAccountService
             throw new RefreshTokenException("Refresh token is missing.");
         }
 
-        var user = await _userRepository.GetUserByRefreshTokenAsync(refreshToken);
+        var user = await userRepository.GetUserByRefreshTokenAsync(refreshToken);
 
         if (user == null)
         {
@@ -83,18 +77,18 @@ public class AccountService : IAccountService
             throw new RefreshTokenException("Refresh token is expired.");
         }
         
-        var (jwtToken, expirationDateInUtc) = _authTokenProcessor.GenerateJwtToken(user);
-        var refreshTokenValue = _authTokenProcessor.GenerateRefreshToken();
+        var (jwtToken, expirationDateInUtc) = authTokenProcessor.GenerateJwtToken(user);
+        var refreshTokenValue = authTokenProcessor.GenerateRefreshToken();
 
         var refreshTokenExpirationDateInUtc = DateTime.UtcNow.AddDays(7);
 
         user.RefreshToken = refreshTokenValue;
         user.RefreshTokenExpiresAtUtc = refreshTokenExpirationDateInUtc;
 
-        await _userManager.UpdateAsync(user);
+        await userManager.UpdateAsync(user);
         
-        _authTokenProcessor.WriteAuthTokenAsHttpOnlyCookie("ACCESS_TOKEN", jwtToken, expirationDateInUtc);
-        _authTokenProcessor.WriteAuthTokenAsHttpOnlyCookie("REFRESH_TOKEN", user.RefreshToken, refreshTokenExpirationDateInUtc);
+        authTokenProcessor.WriteAuthTokenAsHttpOnlyCookie("ACCESS_TOKEN", jwtToken, expirationDateInUtc);
+        authTokenProcessor.WriteAuthTokenAsHttpOnlyCookie("REFRESH_TOKEN", user.RefreshToken, refreshTokenExpirationDateInUtc);
     }
 
     public async Task LoginWithGoogleAsync(ClaimsPrincipal? claimsPrincipal)
@@ -111,7 +105,7 @@ public class AccountService : IAccountService
             throw new ExternalLoginProviderException("Google", "Email is null");
         }
 
-        var user = await _userRepository.GetUserByEmail(email);
+        var user = await userRepository.GetUserByEmail(email);
 
         if (user == null)
         {
@@ -124,7 +118,7 @@ public class AccountService : IAccountService
                 EmailConfirmed = true
             };
 
-            var result = await _userManager.CreateAsync(newUser);
+            var result = await userManager.CreateAsync(newUser);
 
             if (!result.Succeeded)
             {
@@ -140,13 +134,13 @@ public class AccountService : IAccountService
         
        var providerKey = claimsPrincipal.FindFirstValue(ClaimTypes.NameIdentifier) ?? string.Empty;
        
-           var existingLogins = await _userManager.GetLoginsAsync(user);
+           var existingLogins = await userManager.GetLoginsAsync(user);
            var alreadyLinked = existingLogins.Any(l => l.LoginProvider == "Google" && l.ProviderKey == providerKey);
        
            if (!alreadyLinked)
            {
                var info = new UserLoginInfo("Google", providerKey, "Google");
-               var loginResult = await _userManager.AddLoginAsync(user, info);
+               var loginResult = await userManager.AddLoginAsync(user, info);
        
                if (!loginResult.Succeeded)
                {
@@ -155,17 +149,17 @@ public class AccountService : IAccountService
                }
            }
         
-        var (jwtToken, expirationDateInUtc) = _authTokenProcessor.GenerateJwtToken(user);
-        var refreshTokenValue = _authTokenProcessor.GenerateRefreshToken();
+        var (jwtToken, expirationDateInUtc) = authTokenProcessor.GenerateJwtToken(user);
+        var refreshTokenValue = authTokenProcessor.GenerateRefreshToken();
 
         var refreshTokenExpirationDateInUtc = DateTime.UtcNow.AddDays(7);
 
         user.RefreshToken = refreshTokenValue;
         user.RefreshTokenExpiresAtUtc = refreshTokenExpirationDateInUtc;
 
-        await _userManager.UpdateAsync(user);
+        await userManager.UpdateAsync(user);
         
-        _authTokenProcessor.WriteAuthTokenAsHttpOnlyCookie("ACCESS_TOKEN", jwtToken, expirationDateInUtc);
-        _authTokenProcessor.WriteAuthTokenAsHttpOnlyCookie("REFRESH_TOKEN", user.RefreshToken, refreshTokenExpirationDateInUtc);
+        authTokenProcessor.WriteAuthTokenAsHttpOnlyCookie("ACCESS_TOKEN", jwtToken, expirationDateInUtc);
+        authTokenProcessor.WriteAuthTokenAsHttpOnlyCookie("REFRESH_TOKEN", user.RefreshToken, refreshTokenExpirationDateInUtc);
     }
 }

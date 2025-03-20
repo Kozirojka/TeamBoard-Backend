@@ -1,8 +1,9 @@
-using Microsoft.EntityFrameworkCore;
+using MongoDB.Driver.Linq;
 using ReadTimeBoard.Application.interfaces;
 using RealTimeBoard.Domain.EntitySQL;
+using RealTimeBoard.Infrustructure;
 
-namespace RealTimeBoard.Infrustructure.Repository;
+namespace ReadTimeBoard.Application.Repository;
 
 public class UserRepository : IUserRepository
 {

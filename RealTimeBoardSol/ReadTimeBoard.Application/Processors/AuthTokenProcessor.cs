@@ -6,9 +6,11 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using ReadTimeBoard.Application.interfaces;
+using RealTimeBoard.Domain;
 using RealTimeBoard.Domain.EntitySQL;
+using RealTimeBoard.Infrustructure;
 
-namespace RealTimeBoard.Infrustructure.Processors;
+namespace ReadTimeBoard.Application.Processors;
 
 public class AuthTokenProcessor : IAuthTokenProcessor
 {
@@ -20,9 +22,7 @@ public class AuthTokenProcessor : IAuthTokenProcessor
         _httpContextAccessor = httpContextAccessor;
         _jwtOptions = jwtOptions.Value;
     }
-
     
-
     public (string jwtToken, DateTime expiresAtUtc) GenerateJwtToken(ApplicationUser user)
     {
         var signingKey = new SymmetricSecurityKey(

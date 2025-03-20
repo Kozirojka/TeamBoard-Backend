@@ -8,6 +8,8 @@
     public class VectorObject
     {
         public Guid Id { get; set; }
+        public Guid BoardId { get; set; }
+        
         public FigureType Type { get; set; }
         
         [JsonConverter(typeof(PointConverter))]

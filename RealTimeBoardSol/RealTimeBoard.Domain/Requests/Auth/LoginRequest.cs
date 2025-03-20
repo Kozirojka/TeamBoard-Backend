@@ -1,4 +1,4 @@
-namespace RealTimeBoard.Domain.Requests;
+namespace RealTimeBoard.Domain.Requests.Auth;
 
 public record LoginRequest
 {

@@ -9,11 +9,11 @@ using RealTimeBoard.Infrustructure;
 
 #nullable disable
 
-namespace RealTimeBoard.Infrustructure.Migrations
+namespace RealTimeBoard.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20250317191622_moveToIdentity")]
-    partial class moveToIdentity
+    [Migration("20250320170553_InitialCommit")]
+    partial class InitialCommit
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
