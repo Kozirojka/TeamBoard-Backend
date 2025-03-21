@@ -1,6 +1,6 @@
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using ReadTimeBoard.Application.Board.Query;
+using RealTimeBoard.Application.Board.Query;
 
 namespace RealTimeBoard.Api.Endpoints.BoardRooms;
 

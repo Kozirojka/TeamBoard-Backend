@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using RealTimeBoard.Domain.EntitySQL;
 using RealTimeBoard.Infrastructure;
 
-namespace ReadTimeBoard.Application.Board.Command;
+namespace RealTimeBoard.Application.Board.Command;
 
 public record JoinToBoardCommand(string UserId, string InviteLink) : IRequest<ErrorOr<Success>>;
     

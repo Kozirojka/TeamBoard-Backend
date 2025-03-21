@@ -3,7 +3,7 @@ using MediatR;
 using RealTimeBoard.Domain.Requests.Board;
 using RealTimeBoard.Infrastructure;
 
-namespace ReadTimeBoard.Application.Board.Command;
+namespace RealTimeBoard.Application.Board.Command;
 
 
 public record CreateBoardCommand(CreateBoardRequest Title, Guid AuthorId) : IRequest<ErrorOr<Success>>;

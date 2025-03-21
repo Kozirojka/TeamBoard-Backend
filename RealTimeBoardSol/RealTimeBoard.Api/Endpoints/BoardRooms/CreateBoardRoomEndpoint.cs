@@ -1,5 +1,5 @@
 using MediatR;
-using ReadTimeBoard.Application.Board.Command;
+using RealTimeBoard.Application.Board.Command;
 using RealTimeBoard.Api.Extension;
 using RealTimeBoard.Domain.Requests.Board;
 

@@ -1,9 +1,10 @@
+using System.Reflection;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using ReadTimeBoard.Application.interfaces;
-using ReadTimeBoard.Application.Processors;
-using ReadTimeBoard.Application.Repository;
-using ReadTimeBoard.Application.services;
+using RealTimeBoard.Application.interfaces;
+using RealTimeBoard.Application.Processors;
+using RealTimeBoard.Application.Repository;
+using RealTimeBoard.Application.services;
 using RealTimeBoard.Api;
 using RealTimeBoard.Api.Extension;
 using RealTimeBoard.Domain;
@@ -17,9 +18,12 @@ builder.Services.AddDbContext<ApplicationDbContext>(o =>
     o.UseNpgsql(builder.Configuration.GetConnectionString("DbPostgres"));
 });
 
+builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly()));
+
+
 builder.Services.Configure<JwtOptions>(
     builder.Configuration.GetSection(JwtOptions.JwtOptionsKey));
-//
+
 // builder.Services.AddCors(opt =>
 // {
 //     opt.AddPolicy("CorsPolicy", options =>
@@ -32,17 +36,14 @@ builder.Services.AddScoped<IAuthTokenProcessor, AuthTokenProcessor>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IAccountService, AccountService>();
 
-
-
 builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
     .AddEntityFrameworkStores<ApplicationDbContext>()
-    
     .AddDefaultTokenProviders();
+
 builder.Services.AddHttpContextAccessor();
 
 builder.Services.AddSwagger();
 builder.Services.AddOpenApi();
-
 
 //builder.Services.RegisterAddAuthLogin(builder.Configuration);
 
@@ -50,7 +51,6 @@ builder.Services.AddSignalR();
 
 builder.Services.AddFeatures(builder.Configuration);
 
-builder.Services.AddOpenApi();
 
 var app = builder.Build();
 
@@ -60,7 +60,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI(options =>
     {
-        options.SwaggerEndpoint("/swagger/v1/swagger.json", "Product API V1");
+        options.SwaggerEndpoint("/swagger/v1/swagger.json", "Readtime board API V1");
         options.RoutePrefix = "";
     });
 }

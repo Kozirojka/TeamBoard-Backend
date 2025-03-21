@@ -1,6 +1,6 @@
 using RealTimeBoard.Domain.EntitySQL;
 
-namespace ReadTimeBoard.Application.interfaces;
+namespace RealTimeBoard.Application.interfaces;
 
 public interface IAuthTokenProcessor
 {
