@@ -13,7 +13,10 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     
     public DbSet<ApplicationUser> ApplicationUsers { get; set; }
     public DbSet<Board> Boards { get; set; }
-
+    
+    public DbSet<BoardApplicationUser> BoardApplicationUsers { get; set; }
+    
+    
      protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);

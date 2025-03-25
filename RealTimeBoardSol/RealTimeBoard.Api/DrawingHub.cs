@@ -23,7 +23,7 @@ public class DrawingHub(MongoDbContext mongoDbContext, ILogger<DrawingHub> logge
     {
         
         logger.Log(LogLevel.Information, "Here is come object");
-        vectorObject.BoardId = Guid.Parse(boardId); 
+        vectorObject.Id = Guid.Parse(boardId); 
         
         await mongoDbContext.FitureObjects.InsertOneAsync(vectorObject);
         
