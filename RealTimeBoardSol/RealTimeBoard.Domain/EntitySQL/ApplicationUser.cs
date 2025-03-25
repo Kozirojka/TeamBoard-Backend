@@ -9,7 +9,9 @@ public class ApplicationUser : IdentityUser
     public string Email { get; set; }
     public string? RefreshToken { get; set; }
     public DateTime? RefreshTokenExpiresAtUtc { get; set; }
-
+    
+    public string? ProfilePictureUrl { get; set; }
+    
     public static ApplicationUser Create(string firstName, string lastName,  string email)
     {
         return new ApplicationUser
@@ -19,9 +21,15 @@ public class ApplicationUser : IdentityUser
             Email = email,
         };
     }
-    //use will have a list of token. Where each token it's key to canvaboard
-    public ICollection<BoardToken> ListOfTokens { get; set; } = new List<BoardToken>();
 
+    public bool AddBoardToUser(Board board)
+    {
+        
+      
+        
+        return true;
+    }
+    
     public override string ToString()
     {
         return $"{FirstName} {LastName}";

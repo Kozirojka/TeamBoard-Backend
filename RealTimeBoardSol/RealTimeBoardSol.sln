@@ -4,7 +4,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RealTimeBoard.Api", "RealTi
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RealTimeBoard.Domain", "RealTimeBoard.Domain\RealTimeBoard.Domain.csproj", "{C6DEE8A0-459C-4784-9CC6-7A11B7D97C55}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReadTimeBoard.Application", "ReadTimeBoard.Application\ReadTimeBoard.Application.csproj", "{BBD6022F-BB7F-4163-8A69-5FFD01E17EC7}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RealTimeBoard.Application", "RealTimeBoard.Application\RealTimeBoard.Application.csproj", "{BBD6022F-BB7F-4163-8A69-5FFD01E17EC7}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RealTimeBoard.Infrastructure", "RealTimeBoard.Infrastructure\RealTimeBoard.Infrastructure.csproj", "{1B13E318-A578-4C9B-B415-F8C238DE73F8}"
 EndProject

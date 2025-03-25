@@ -1,9 +1,9 @@
 using ErrorOr;
 using MediatR;
 using RealTimeBoard.Domain.Requests.Board;
-using RealTimeBoard.Infrustructure;
+using RealTimeBoard.Infrastructure;
 
-namespace ReadTimeBoard.Application.Board.Command;
+namespace RealTimeBoard.Application.Board.Command;
 
 
 public record CreateBoardCommand(CreateBoardRequest Title, Guid AuthorId) : IRequest<ErrorOr<Success>>;
@@ -19,10 +19,11 @@ public class CreateBoardCommandHandler(ApplicationDbContext dbContext)
         var newBoard = new RealTimeBoard.Domain.EntitySQL.Board()
         {
             Id = Guid.NewGuid(),
-            Name = request.Title.BoardName,
+            BoardName = request.Title.BoardName,
             AuthorId = request.AuthorId,
+            InviteLink = Guid.NewGuid().ToString()
         };
-        
+            
         await _dbContext.Boards.AddAsync(newBoard, cancellationToken);
         
         var result = await _dbContext.SaveChangesAsync(cancellationToken);

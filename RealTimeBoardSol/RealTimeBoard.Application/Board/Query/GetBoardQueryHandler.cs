@@ -4,7 +4,7 @@ using RealTimeBoard.Domain.EntityNoSQl;
 using RealTimeBoard.Domain.Requests.Board;
 using RealTimeBoard.Infrastructure.NoSQLDatabase;
 
-namespace ReadTimeBoard.Application.Board.Query;
+namespace RealTimeBoard.Application.Board.Query;
 
 // нам потрібно повернути звідси, всі обєкти які є відносні до цієї таблички.
 

@@ -2,7 +2,7 @@ using System.Security.Claims;
 using RealTimeBoard.Domain.Requests;
 using RealTimeBoard.Domain.Requests.Auth;
 
-namespace ReadTimeBoard.Application.interfaces;
+namespace RealTimeBoard.Application.interfaces;
 
 public interface IAccountService
 {

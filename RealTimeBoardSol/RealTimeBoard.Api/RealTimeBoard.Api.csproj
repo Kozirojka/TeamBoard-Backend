@@ -8,6 +8,7 @@
 
     <ItemGroup>
         <PackageReference Include="ErrorOr" Version="2.0.1" />
+        <PackageReference Include="MediatR" Version="12.4.1" />
         <PackageReference Include="Microsoft.AspNetCore.Authentication.Google" Version="9.0.3" />
         <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="9.0.3" />
         <PackageReference Include="Microsoft.AspNetCore.Http" Version="2.3.0" />
@@ -29,7 +30,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\ReadTimeBoard.Application\ReadTimeBoard.Application.csproj" />
+      <ProjectReference Include="..\RealTimeBoard.Application\RealTimeBoard.Application.csproj" />
       <ProjectReference Include="..\RealTimeBoard.Domain\RealTimeBoard.Domain.csproj" />
     </ItemGroup>
 
